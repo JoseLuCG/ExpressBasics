@@ -1,15 +1,19 @@
 import express from "express";
 
+import { requestLog, bodyLog } from "./middleware/requestsLog.mjs";
+
 const PATH_PREFIX = "/api/v0.0"
 const app = express();
 const jsonParser = express.json();
 const tasks = [];
 
+app.use(requestLog);
+
 app.get(PATH_PREFIX+"/tasks/", (request, response) => {
     response.json(tasks)
 });
 
-app.post(PATH_PREFIX+"/task/", jsonParser, (request, response) => {
+app.post(PATH_PREFIX+"/task/", jsonParser, bodyLog, (request , response) => {
     try {
         tasks.push(request.body);
         response.sendStatus(201);
@@ -19,7 +23,7 @@ app.post(PATH_PREFIX+"/task/", jsonParser, (request, response) => {
     }
 });
 
-app.put(PATH_PREFIX+"/task/", jsonParser, (request, response) => {
+app.put(PATH_PREFIX+"/task/", jsonParser, bodyLog, (request, response) => {
     const updatedTask = request.body;
     const oldTaskIdx = tasks.findIndex(
         item => item.id === updatedTask.id
@@ -28,7 +32,7 @@ app.put(PATH_PREFIX+"/task/", jsonParser, (request, response) => {
     response.sendStatus(200);
 });
 
-app.delete(PATH_PREFIX+"/task/", jsonParser, (request, response) => {
+app.delete(PATH_PREFIX+"/task/", jsonParser, bodyLog, (request, response) => {
     const updatedTask = request.body;
     const oldTaskIdx = tasks.findIndex(
         item => item.id === updatedTask.id
