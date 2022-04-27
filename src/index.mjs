@@ -1,27 +1,42 @@
 import express from "express";
 
-import { authMiddleware } from "./middleware/authorization.mjs";
-import { requestLog } from "./middleware/requestsLog.mjs";
-
-import { postUserController } from "./controllers/usersControllers.mjs";
-import { deleteTaskController, getTaskController, postTaskController, putTaskController } from "./controllers/tasksControllers.mjs";
-
 const PATH_PREFIX = "/api/v0.0"
 const app = express();
-try {
-    const jsonParser = express.json();
-    app.use(requestLog);
+const jsonParser = express.json();
+const tasks = [];
 
-    app.post(PATH_PREFIX+"/users/", jsonParser, postUserController);
+app.get(PATH_PREFIX+"/tasks/", (request, response) => {
+    response.json(tasks)
+});
 
-    app.get(PATH_PREFIX+"/tasks/", authMiddleware, getTaskController);
-    app.post(PATH_PREFIX+"/task/", authMiddleware, jsonParser, postTaskController);
-    app.put(PATH_PREFIX+"/task/", authMiddleware, jsonParser, putTaskController);
-    app.delete(PATH_PREFIX+"/task/", authMiddleware, jsonParser, deleteTaskController);
+app.post(PATH_PREFIX+"/task/", jsonParser, (request, response) => {
+    try {
+        tasks.push(request.body);
+        response.sendStatus(201);
+    } catch (err) {
+        console.error(err);
+        response.sendStatus(500);
+    }
+});
 
-    app.listen(process.env.PORT || 3000,()=>{
-        console.log("Express running...");
-    });
-} catch (err) {
-    console.error(err);
-}
+app.put(PATH_PREFIX+"/task/", jsonParser, (request, response) => {
+    const updatedTask = request.body;
+    const oldTaskIdx = tasks.findIndex(
+        item => item.id === updatedTask.id
+    )
+    tasks[oldTaskIdx] = updatedTask;
+    response.sendStatus(200);
+});
+
+app.delete(PATH_PREFIX+"/task/", jsonParser, (request, response) => {
+    const updatedTask = request.body;
+    const oldTaskIdx = tasks.findIndex(
+        item => item.id === updatedTask.id
+    )
+    tasks.splice(oldTaskIdx,1);
+    response.sendStatus(200)
+});
+
+app.listen(process.env.PORT || 3000,()=>{
+    console.log("Express running...");
+});
