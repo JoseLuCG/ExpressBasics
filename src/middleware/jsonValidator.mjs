@@ -62,3 +62,24 @@ export function validateDeleteTaskJSON ( request, response, next) {
         throw "Error validating data"
     }
 }
+
+/*
+export function validatorFactory (schema) {
+    return function JSONvalidator ( request, response, next) {
+        try {
+            const validation = validate(request.body, schema)
+            if (validation.valid) {
+                next();
+            } else {
+                response.status(400);
+                response.send("Invalid task data provided");
+                console.error("Invalid task data provided");
+            }
+        } catch (err) {
+            throw "Error validating data"
+        }
+    }
+}
+
+const validadorNewTask = validatorFactory(newTaskSchema)
+*/

@@ -21,9 +21,7 @@ export const taskSchema = {
         id: {
             description: "Task unique identificator",
             type: "integer",
-            not: {
-                exclusiveMaximum: 0,
-            }
+            minimum: 0
         },
         description: {
             description: "Task description",
@@ -44,9 +42,7 @@ export const deleteTaskSchema = {
         id: {
             description: "Task unique identificator",
             type: "integer",
-            not: {
-                exclusiveMaximum: 0,
-            }
+            minimum: 0
         }
     },
     additionalProperties: false

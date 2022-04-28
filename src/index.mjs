@@ -2,8 +2,7 @@ import express from "express";
 
 import { requestLog } from "./middleware/requestsLog.mjs";
 import { authMiddleware } from "./middleware/authorization.mjs";
-import { validateUserJSON } from "./middleware/jsonValidator.mjs";
-import { validateNewTaskJSON, validateTaskJSON, validateDeleteTaskJSON } from "./middleware/jsonValidator.mjs";
+import { validateUserJSON, validateNewTaskJSON, validateTaskJSON, validateDeleteTaskJSON } from "./middleware/jsonValidator.mjs";
 
 import { postUserController } from "./controllers/usersControllers.mjs";
 import { deleteTaskController, getTaskController, postTaskController, putTaskController } from "./controllers/tasksControllers.mjs";
