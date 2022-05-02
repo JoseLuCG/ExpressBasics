@@ -27,10 +27,6 @@ export function getOneTaskController (request, response) {
     }
 }
 
-export function getAllTasksController (request, response) {
-    response.json(tasks)
-}
-
 export function postTaskController (request, response) {
     const { description, done } = request.body;
     db.run(
