@@ -16,6 +16,14 @@ export function postUserController (request, response) {
 }
 
 export function getAllUsersController(request, response){
-    console.log("hello");
-    response.send("this shit works");
+    db.all("SELECT * FROM users",
+    (err, data)=>{
+        if (err){
+            console.error(err);
+            response.sendStatus(500);
+        } else {
+            response.json(data)
+        }
+    }
+    )
 }
