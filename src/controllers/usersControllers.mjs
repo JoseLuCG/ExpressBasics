@@ -1,6 +1,10 @@
-import { users } from "../models/usersModels.mjs";
 import { db } from "../models/db.mjs";
 
+/**
+ * Add a user in de database.
+ * @param {*} request 
+ * @param {*} response 
+ */
 export function postUserController (request, response) {
     const {name, password} = request.body;
     const sql = `
@@ -8,7 +12,10 @@ export function postUserController (request, response) {
     values ( '${name}' , '${password}' )
     `;
     db.run(sql);
-    
-    //users.push(request.body);
     response.sendStatus(201)
+}
+
+export function getAllUsersController(request, response){
+    console.log("hello");
+    response.send("this shit works");
 }
