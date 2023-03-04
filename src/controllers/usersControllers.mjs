@@ -15,6 +15,11 @@ export function postUserController (request, response) {
     response.sendStatus(201)
 }
 
+/**
+ * Obtain all users.
+ * @param {*} request 
+ * @param {*} response 
+ */
 export function getAllUsersController(request, response){
     db.all("SELECT * FROM users",
     (err, data)=>{
